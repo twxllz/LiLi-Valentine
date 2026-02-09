@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valentine?</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  h1 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2rem;
+  }
+
+  .buttons {
+    position: relative;
+    height: 150px;
+  }
+
+  button {
+    padding: 14px 28px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  #yes {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  #no {
+    background: #ddd;
+    color: #333;
+    position: absolute;
+    left: 60%;
+    top: 60%;
+  }
+
+  /* Floating hearts */
+  .heart {
+    position: absolute;
+    color: rgba(255, 0, 80, 0.4);
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+  }
+
+  @keyframes floatUp {
+    from {
+      transform: translateY(100vh) scale(0.8);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-10vh) scale(1.2);
+      opacity: 0;
+    }
+  }
+
+  /* Confetti hearts */
+  .confetti {
+    position: fixed;
+    font-size: 20px;
+    animation: pop 2s ease-out forwards;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0) translateY(0); opacity: 1; }
+    100% { transform: scale(1.5) translateY(200px); opacity: 0; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Liana, will you be my Valentine? 💖</h1>
+  <div class="buttons">
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+  </div>
+</div>
+
+<script>
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  let yesScale = 1;
+
+  function moveNoButton() {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+
+    yesScale += 0.15;
+    yesBtn.style.transform = `scale(${yesScale})`;
+  }
+
+  // Desktop hover
+  noBtn.addEventListener("mouseenter", moveNoButton);
+
+  // Mobile touch
+  noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveNoButton();
+  });
+
+  // Floating background hearts
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+  }
+
+  setInterval(createHeart, 400);
+
+  // Confetti hearts on YES
+  yesBtn.addEventListener("click", () => {
+    for (let i = 0; i < 40; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.innerHTML = "💖";
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.top = Math.random() * 20 + "vh";
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 2000);
+    }
+
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        font-family:Arial;
+        background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+      ">
+        <h1>Best decision ever 💕<br>Happy Valentine’s Day, Liana!</h1>
+      </div>
+    `;
+  });
+</script>
+
+</body>
+</html>
